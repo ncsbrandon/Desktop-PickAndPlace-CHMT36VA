@@ -14,12 +14,12 @@ real      offsetY             = 0.0;
 real      offsetX             = 0.0;
 int       enableTop           = 1;
 int       enableBottom        = 1;
-int       feederListMode      = 1;
-string    feederListUrl       = "https://docs.google.com/spreadsheets/d/1t7BfV9FiJE20SNKypvWN8WfetIBiayv5uGflU4kCefE/export?format=csv&id=1t7BfV9FiJE20SNKypvWN8WfetIBiayv5uGflU4kCefE&gid=0";
-string    feederCSV           = "feeders.csv";
-int       trayListMode        = 1;
-string    trayListUrl         = "https://docs.google.com/spreadsheets/d/1t7BfV9FiJE20SNKypvWN8WfetIBiayv5uGflU4kCefE/export?format=csv&id=1t7BfV9FiJE20SNKypvWN8WfetIBiayv5uGflU4kCefE&gid=370861540";
-string    trayCSV             = "trays.csv";
+int       feederListMode      = 0;
+string    feederListUrl       = "https://docs.google.com/spreadsheets/d/1PYF-mgUX6ZCsCE1asVujuJHx-Mq8295c7aTCwVem-NQ/edit?gid=0#gid=0";
+string    feederCSV           = "D:\\Desktop-PickAndPlace-CHMT36VA\\Eagle-Conversion\\feeders.csv";
+int       trayListMode        = 0;
+string    trayListUrl         = "https://docs.google.com/spreadsheets/d/1PYF-mgUX6ZCsCE1asVujuJHx-Mq8295c7aTCwVem-NQ/edit?gid=0#gid=0";
+string    trayCSV             = "D:\\Desktop-PickAndPlace-CHMT36VA\\Eagle-Conversion\\trays.csv";
 int       autodetectColumns   = 1;
 int       flipHorizontal      = 1;
 string 	  defaultFileLocation = "";
@@ -597,7 +597,7 @@ string convertUrl(string url) {
  */ 
 void downloadFeederData(){
   if(feederListMode ==  0) { //Local CSV
-    numberOfFeeders = fileread(availableFeederList, filedir(argv[0]) + feederCSV);
+    numberOfFeeders = fileread(availableFeederList, feederCSV);
   } else {                  //Download data from url / google spreadsheets
     string url = convertUrl(feederListUrl);
     numberOfFeeders = netget(availableFeederList, url);
@@ -605,7 +605,7 @@ void downloadFeederData(){
 
   // Check if everything was ok
   if (numberOfFeeders <= 0){
-    dlgMessageBox("Error: Feeder file not found.", "OK");
+    dlgMessageBox("Error: downloadFeederData file not found." + feederCSV, "OK");
     exit(0);
   }
 
@@ -636,7 +636,7 @@ void downloadFeederData(){
  */ 
 void downloadTrayData(){
   if(trayListMode ==  0) { //Local CSV
-    numberOfTrays = fileread(availableTrayList, filedir(argv[0]) + trayCSV);
+    numberOfTrays = fileread(availableTrayList, trayCSV);
   } else {                  //Download data from url / google spreadsheets
     string url = convertUrl(trayListUrl);
     numberOfTrays = netget(availableTrayList, url);
@@ -644,7 +644,7 @@ void downloadTrayData(){
 
   // Check if everything was ok
   if (numberOfTrays <= 0){
-    dlgMessageBox("Error: Feeder file not found.", "OK");
+    dlgMessageBox("Error: downloadTrayData file not found. " + argv[0], "OK");
     exit(0);
   }
 
